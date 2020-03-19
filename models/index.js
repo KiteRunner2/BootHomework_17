@@ -2,17 +2,17 @@
 const mongoose = require('mongoose');
 
 const MySchema = new mongoose.Schema({
-    day:Date,
-    excercises:[
-        {
-        type:String,
-        name:String,
-        duration:Number,
-        weight:Number,
-        reps:Number,
-        sets:Number
-        }
-    ]
+    // day:Date,
+    // excercises:[
+    //     {
+    //     type:String,
+    //     name:String,
+    //     duration:Number,
+    //     weight:Number,
+    //     reps:Number,
+    //     sets:Number
+    //     }
+    // ]
 },{strict:false});
 
 

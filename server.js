@@ -4,7 +4,7 @@ const fs = require('fs');
 let Workout = require("./models");
 const app = express();
 
-mongoose.connect('mongodb://localhost/Workout',{useNewUrlParser:true});
+mongoose.connect('mongodb://localhost/workout',{useNewUrlParser:true});
 
 // const db = mongoose.connection;
 
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 // parse application/json
 app.use(express.json());
 
-app.get('/stats',(req,res)=>{
+app.get('/stats', (req,res)=>{
     const filetoSend = fs.readFileSync('./public/stats.html','utf-8');
     res.send(filetoSend);
 });
