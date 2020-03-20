@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const fs = require('fs');
-let Workout = require("./models");
+let db = require("./models");
 const app = express();
+const url = require('url');
 
-mongoose.connect('mongodb://localhost/workout',{useNewUrlParser:true});
+
 
 // const db = mongoose.connection;
 
@@ -28,28 +29,56 @@ app.get('/exercise',(req,res)=>{
 });
 
 app.get('/api/workouts/range',async (req,res)=>{
-    console.log('/api/workouts/range call received');
-    const result = await Workout.find({});
-    console.log(result);
+    // console.log('/api/workouts/range call received');
+    const result = await db.Workout.find({});
+    // console.log(result);
     res.json(result);
 })
 
 app.get('/api/workouts',async (req,res)=>{
-    console.log('/api/workouts call received');
-    console.log('trying to query mongo ...');
-    const result = await Workout.find({});
-    console.log(result);
+    // console.log('/api/workouts call received');
+    // console.log('trying to query mongo ...');
+    const result = await db.Workout.find({});
+    // console.log(result);
     res.json(result);
     
     // console.log(result);
 })
 
-app.post('/api/workouts',(req,res)=>{
+app.post('/api/workouts',async (req,res)=>{
     console.log(`POST /api/workouts call receieved`);
+    console.log(req.body);
+    // const result = await db.Workout.create(req.body);
+    // return result;
 });
 
-app.put('/api/workouts',(req,res)=>{
+app.put('/api/workouts/:id',async (req,res)=>{
     console.log(`PUT /api/workouts call receieved`);
+    // console.log(req.body);
+    if (req.params.id != 'undefined') {
+        console.log(`need update query with id ${req.params.id}`);
+    } else
+    {
+        console.log('need to insert new workout!');
+        let data = {
+            day:new Date().setDate(new Date().getDate()),
+            exercises:[{
+                type:req.body.type,
+                name:req.body.name,
+                duration:req.body.duration,
+                weight:req.body.weight,
+                reps:req.body.reps,
+                sets:req.body.sets
+            }
+            ]
+        }
+        // console.log(data);
+        const result = await db.Workout.create(data);
+        console.log('result from creating workout in mongo',result);
+        res.json(result);
+    }
+    // console.log(req.params);
+    
 });
 
 app.listen(PORT,(req,res)=>{
