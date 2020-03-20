@@ -1,11 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const ObjectId = require('mongodb').ObjectId;
 const fs = require('fs');
 let db = require("./models");
 const app = express();
-const url = require('url');
-
 
 
 // const db = mongoose.connection;
