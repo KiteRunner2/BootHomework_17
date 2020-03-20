@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const ObjectId = require('mongodb').ObjectId;
 const fs = require('fs');
 let db = require("./models");
 const app = express();
@@ -57,6 +58,14 @@ app.put('/api/workouts/:id',async (req,res)=>{
     // console.log(req.body);
     if (req.params.id != 'undefined') {
         console.log(`need update query with id ${req.params.id}`);
+        const filter = {_id:req.params.id};
+        const update = {
+            $push:{exercises:{name:req.body.name,duration:req.body.duration}}
+        }
+        console.log(update);
+        const result = await db.Workout.updateOne(filter,update,{useFindAndModify:false});
+        console.log(result);
+        res.json(result);
     } else
     {
         console.log('need to insert new workout!');
